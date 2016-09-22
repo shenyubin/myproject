@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>jq简易焦点图练习</title>
+		<style type="text/css">
+			body,ul,ol,li{ margin: 0; padding: 0; list-style: none;}
+			#nav{ position: relative; top: 200px; margin: 0 auto; width: 223px; height: 133px; border: 1px solid #999999; box-shadow: 0 0 1px 3px  #919191 ;}
+			#nav ul{ position: relative; width: 223px; height: 133px; }
+			#nav ul li{ position: absolute;}
+			#nav ol{ position: relative; top:10px; width: 100px;  height: 30px; margin: 0 auto;}
+			#nav ol li{ width: 20px; height: 20px; margin-left: 5px; float: left;}
+			#nav ol li a{ display: block; width: 20px; height: 20px; border: 1px solid #6E6E6E; border-radius: 100%; background: #FFFFFF;}
+			#nav ol .active{ background: #919191;}
+			#nav .triangle_left,#nav .triangle_right{ position: absolute; top: 50px; width: 0; height: 0;  border-top: 30px solid transparent; border-bottom: 30px solid transparent;  _border-top:30px solid #767676; _border-bottom:30px solid #767676; /*ie6下面用hack实现兼容*/} 
+			#nav .triangle_left:hover,#nav .triangle_right:hover{ cursor: pointer;}
+			#nav .triangle_left{ left: -100px; border-right: 30px solid #767676;}
+			#nav .triangle_right{  right: -100px; border-left: 30px solid #767676;}
+		</style>
+		<script src="js/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				(function(){
+					var oNav=$('#nav');
+					var oUlli=oNav.find('ul li');
+					var oOllia=oNav.find('ol li a');
+					var oLeft=oNav.find('.triangle_left');
+					var oRight=oNav.find('.triangle_right');
+					var iNow=0;
+					var timer=null;
+					
+					navgo();
+					autoPlay();
+					oOllia.each(function(i){
+						$(this).click(function(){
+							iNow = i;
+//							console.log(iNow);
+							navgo();
+						})
+					})
+					oNav.hover(function(){clearInterval(timer)},autoPlay);
+					function autoPlay(){
+						timer=setInterval(function(){
+							iNow++;
+								if(iNow > oUlli.length-1){
+									iNow =0;
+								}
+								navgo();
+						},2000)
+					}
+					oRight.click(function(){
+						iNow++;
+						if(iNow > oUlli.length-1){
+							iNow =0;
+						}
+						navgo();
+					})
+					oLeft.click(function(){
+						iNow--;
+						if(iNow < 0){
+							iNow = oUlli.length-1;
+						}
+						navgo();
+					})
+					
+					function navgo(){
+						oUlli.each(function(i){
+						if(i !== iNow){
+							oUlli.eq(i).fadeOut().css('z-index','1');
+							oOllia.eq(i).removeClass('active');
+						}else{
+							oUlli.eq(i).fadeIn().css('z-index','2');
+							oOllia.eq(i).addClass('active');
+						}
+					})
+					}
+					
+				})();
+
+				//思路2两个按钮的操作封装成函数，效果差不多，定时器与圆点与按钮的重复性不高。
+//				(function(){
+//					var oNav=$('#nav');
+//					var oUlli=oNav.find('ul li');
+//					var oOllia=oNav.find('ol li a');
+//					var oLeft=oNav.find('.triangle_left');
+//					var oRight=oNav.find('.triangle_right');
+//					var iNow=0;
+//					var timer=null;
+//
+//					navgo(0);
+//					autoPlay();
+//					oNav.hover(function(){clearInterval(timer)},autoPlay);
+//					function autoPlay(){
+//						timer=setInterval(function(){
+//							iNow++;
+//								if(iNow > oUlli.length-1){
+//									iNow =0;
+//								}
+//								navgo(iNow);
+//						},2000)
+//					}
+//					oRight.click(function(){
+//						chacknum(1);
+//					})
+//					oLeft.click(function(){
+//						chacknum(-1);
+//					})
+//					function chacknum(num){
+//						iNow +=num;
+//						if(iNow > oUlli.length-1){
+//							iNow =0;
+//						}
+//						if(iNow < 0){
+//							iNow = oUlli.length-1;
+//						}
+//						navgo(iNow);
+//					}
+//					oOllia.each(function(i){
+//						$(this).click(function(){
+//							navgo(i);
+//						})
+//					})
+//					function navgo(n){	
+//						iNow = n;
+//						oUlli.each(function(i){
+//							if(i !== iNow){
+//								oUlli.eq(i).fadeOut().css('z-index','1');
+//								oOllia.eq(i).removeClass('active');
+//							}else{
+//								oUlli.eq(i).fadeIn().css('z-index','2');
+//								oOllia.eq(i).addClass('active');
+//							}
+//						})
+//					}
+//				})();
+			})
+		</script>
+	</head>
+	<body>
+		<div id="nav">
+			<ul>
+				<li><img src="img/content/img1.gif" /></li>
+				<li><img src="img/content/img2.gif" /></li>
+				<li><img src="img/content/img3.gif" /></li>
+			</ul>
+			<ol>
+				<li><a href="javascript:;"></a></li>
+				<li><a href="javascript:;"></a></li>
+				<li><a href="javascript:;"></a></li>
+			</ol>
+			<div class="triangle_left"></div>
+			<div class="triangle_right"></div>
+		</div>
+	</body>
+</html>

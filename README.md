@@ -1,8 +1,8 @@
 # myproject
 我的项目
   
-This is my cv(curriculum vitae).    
+This is my project.    
 
 I use d github-pages to show it.    
 
-You can [click here](https//shenyubin.github.io/myproject/mycv/) to see it.
+You can [click here](https//shenyubin.github.io/myproject/learn100du/) to see it.
